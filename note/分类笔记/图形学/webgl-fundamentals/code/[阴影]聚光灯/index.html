@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>阴影-聚光灯</title>
+    <link rel="stylesheet" href="../lib/webgl-tutorials.css" />
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+
+      .gman-widget-value {
+        min-width: 5em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="uiContainer">
+      <div id="ui"></div>
+    </div>
+    <!-- 顶点着色器 -->
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+      attribute vec4 a_position;
+      attribute vec2 a_texcoord;
+      attribute vec3 a_normal;
+
+      uniform vec3 u_lightWorldPosition;
+      uniform vec3 u_viewWorldPosition;
+
+      uniform mat4 u_projection;
+      uniform mat4 u_view;
+      uniform mat4 u_world;
+      uniform mat4 u_textureMatrix;
+
+      varying vec2 v_texcoord;
+      varying vec4 v_projectedTexcoord;
+
+      varying vec3 v_normal;
+
+      varying vec3 v_surfaceToLight;
+      varying vec3 v_surfaceToView;
+
+      void main() {
+          // 将坐标乘以矩阵
+          vec4 worldPosition = u_world * a_position;
+
+          gl_Position = u_projection * u_view * worldPosition;
+
+          // 将纹理坐标传给片段着色器
+          v_texcoord = a_texcoord;
+
+          v_projectedTexcoord = u_textureMatrix * worldPosition;
+
+          // 调整法线方位并传给片段着色器
+          v_normal = mat3(u_world) * a_normal;
+
+          // 计算物体表面的世界坐标
+          vec3 surfaceWorldPosition = (u_world * a_position).xyz;
+
+          // 计算物体表面指向光源的向量
+          // 然后将它传给片段着色器
+          v_surfaceToLight = u_lightWorldPosition - surfaceWorldPosition;
+
+          // 计算物体表面指向相机的向量
+          // 然后将它传给片段着色器
+          v_surfaceToView = u_viewWorldPosition - surfaceWorldPosition;
+      }
+    </script>
+    <!-- 片元着色器 -->
+    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+      precision mediump float;
+
+      // Passed in from the vertex shader.
+      varying vec2 v_texcoord;
+      varying vec4 v_projectedTexcoord;
+      varying vec3 v_normal;
+      varying vec3 v_surfaceToLight;
+      varying vec3 v_surfaceToView;
+
+      uniform vec4 u_colorMult;
+      uniform sampler2D u_texture;
+      uniform sampler2D u_projectedTexture;
+      // 偏差值
+      uniform float u_bias;
+      uniform float u_shininess;
+      uniform vec3 u_lightDirection;
+      uniform float u_innerLimit;          // in dot space
+      uniform float u_outerLimit;          // in dot space
+
+      void main() {
+          // 因为 v_normal 是一个 varying，它已经被插值了
+          // 所以它不会是一个单位向量。对它进行归一化
+          // 使其再次成为单位向量
+          vec3 normal = normalize(v_normal);
+
+          vec3 surfaceToLightDirection = normalize(v_surfaceToLight);
+          vec3 surfaceToViewDirection = normalize(v_surfaceToView);
+          vec3 halfVector = normalize(surfaceToLightDirection + surfaceToViewDirection);
+
+          float dotFromDirection = dot(surfaceToLightDirection,
+                                      -u_lightDirection);
+          float limitRange = u_innerLimit - u_outerLimit;
+          float inLight = clamp((dotFromDirection - u_outerLimit) / limitRange, 0.0, 1.0);
+          float light = inLight * dot(normal, surfaceToLightDirection);
+          float specular = inLight * pow(dot(normal, halfVector), u_shininess);
+
+          vec3 projectedTexcoord = v_projectedTexcoord.xyz / v_projectedTexcoord.w;
+          float currentDepth = projectedTexcoord.z + u_bias;
+
+          // 判断是否在纹理内部
+          bool inRange =
+              projectedTexcoord.x >= 0.0 &&
+              projectedTexcoord.x <= 1.0 &&
+              projectedTexcoord.y >= 0.0 &&
+              projectedTexcoord.y <= 1.0;
+
+          float projectedDepth = texture2D(u_projectedTexture, projectedTexcoord.xy).r;
+          float shadowLight = (inRange && projectedDepth <= currentDepth) ? 0.0 : 1.0;
+
+          vec4 texColor = texture2D(u_texture, v_texcoord) * u_colorMult;
+          float projectedAmount = inRange ? 1.0 : 0.0;
+          gl_FragColor = vec4(
+              texColor.rgb * light * shadowLight +
+              specular * shadowLight,
+              texColor.a);
+      }
+    </script>
+    <!-- 第二组 着色器 -->
+    <!-- vertex shader -->
+    <script id="color-vertex-shader" type="x-shader/x-vertex">
+      attribute vec4 a_position;
+
+      uniform mat4 u_projection;
+      uniform mat4 u_view;
+      uniform mat4 u_world;
+
+      void main() {
+          // Multiply the position by the matrices.
+          gl_Position = u_projection * u_view * u_world * a_position;
+      }
+    </script>
+    <!-- fragment shader -->
+    <script id="color-fragment-shader" type="x-shader/x-fragment">
+      precision mediump float;
+
+      uniform vec4 u_color;
+          void main() {
+          gl_FragColor = u_color;
+      }
+    </script>
+
+    <script src="../lib/webgl-lessons-ui.js"></script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/m4.js"></script>
+    <script src="../lib/primitives.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>

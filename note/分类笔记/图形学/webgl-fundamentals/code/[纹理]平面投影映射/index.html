@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>纹理-平面投影映射</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+      // 顶点着色器
+      attribute vec4 a_position;
+      attribute vec2 a_texcoord;
+
+      uniform mat4 u_projection;
+      uniform mat4 u_view;
+      uniform mat4 u_world;
+      uniform mat4 u_textureMatrix;
+
+      varying vec2 v_texcoord;
+      varying vec4 v_projectedTexcoord;
+
+      void main() {
+          vec4 worldPosition = u_world * a_position;
+
+          gl_Position = u_projection * u_view * worldPosition;
+
+          // 把纹理坐标传给片段着色器
+          v_texcoord = a_texcoord;
+
+          v_projectedTexcoord = u_textureMatrix * worldPosition;
+      }
+    </script>
+    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+      // 片段着色器
+      precision mediump float;
+
+      // 从顶点着色器传来的
+      varying vec2 v_texcoord;
+      varying vec4 v_projectedTexcoord;
+
+      uniform vec4 u_colorMult;
+      uniform sampler2D u_texture;
+      uniform sampler2D u_projectedTexture;
+
+      void main() {
+          // 除以 w 得到正确的值，详见透视投影的文章
+          vec3 projectedTexcoord = v_projectedTexcoord.xyz / v_projectedTexcoord.w;
+
+          bool inRange =
+              projectedTexcoord.x >= 0.0 &&
+              projectedTexcoord.x <= 1.0 &&
+              projectedTexcoord.y >= 0.0 &&
+              projectedTexcoord.y <= 1.0;
+
+          vec4 projectedTexColor = texture2D(u_projectedTexture, projectedTexcoord.xy);
+          vec4 texColor = texture2D(u_texture, v_texcoord) * u_colorMult;
+
+          float projectedAmount = inRange ? 1.0 : 0.0;
+          gl_FragColor = mix(texColor, projectedTexColor, projectedAmount);
+      }
+    </script>
+    <script id="color-vertex-shader" type="x-shader/x-vertex">
+      attribute vec4 a_position;
+
+      uniform mat4 u_projection;
+      uniform mat4 u_view;
+      uniform mat4 u_world;
+
+      void main() {
+        // 将 position 乘以矩阵
+        gl_Position = u_projection * u_view * u_world * a_position;
+      }
+    </script>
+    <script id="color-fragment-shader" type="x-shader/x-fragment">
+      precision mediump float;
+
+      uniform vec4 u_color;
+      void main() {
+        gl_FragColor = u_color;
+      }
+    </script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/m4.js"></script>
+    <script src="../lib/primitives.js"></script>
+
+    <script src="./index.js"></script>
+  </body>
+</html>

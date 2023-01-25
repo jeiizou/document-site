@@ -1,0 +1,59 @@
+@keyframes wave {
+  0% {
+    transform: translateX(-50%) rotate(0);
+  }
+  50% {
+    transform: translateX(-50%) rotate(180deg);
+  }
+  100% {
+    transform: translateX(-50%) rotate(360deg);
+  }
+}
+
+.wave {
+  width: 100%;
+  height: 200px;
+  //   background-color: #303846;
+  position: relative;
+  overflow: hidden;
+}
+
+$size: 200vw;
+// $size: 100px;
+
+.wave-base {
+  position: absolute;
+  background-color: #303846;
+  width: $size;
+  height: $size;
+  border-radius: $size/8 * 3;
+  left: 50%;
+  top: 15vw;
+  //   top: 15px;
+}
+
+.wave1 {
+  opacity: 1;
+  animation: wave 15s linear infinite;
+  left: 0;
+}
+.wave2 {
+  opacity: 1;
+  animation: wave 18s linear infinite;
+  left: 25%;
+}
+.wave3 {
+  opacity: 0.5;
+  animation: wave 20s linear infinite;
+  left: 50%;
+}
+.wave4 {
+  opacity: 1;
+  animation: wave 28s linear infinite;
+  left: 75%;
+}
+.wave5 {
+  opacity: 1;
+  animation: wave 15s linear infinite;
+  left: 100%;
+}

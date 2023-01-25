@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>技术-drawImage</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <script id="drawImage-vertex-shader" type="x-shader/x-vertex">
+      attribute vec4 a_position;
+      attribute vec2 a_texcoord;
+
+      uniform mat4 u_matrix;
+      uniform mat4 u_textureMatrix;
+
+      varying vec2 v_texcoord;
+
+      void main() {
+          gl_Position = u_matrix * a_position;
+          // 纹理坐标
+          v_texcoord = (u_textureMatrix * vec4(a_texcoord, 0, 1)).xy;
+      }
+    </script>
+    <script id="drawImage-fragment-shader" type="x-shader/x-fragment">
+      precision mediump float;
+
+      uniform sampler2D u_texture;
+
+      varying vec2 v_texcoord;
+
+      void main() {
+          gl_FragColor = texture2D(u_texture, v_texcoord);
+      }
+    </script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/m4.js"></script>
+    <script src="./maxtrixStack.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>技术-蒙皮</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <!-- 顶点着色器 -->
+    <script id="vs" type="notjs">
+      attribute vec4 a_position;
+      attribute vec4 a_weight;
+      attribute vec4 a_boneNdx;
+
+      uniform mat4 projection;
+      uniform mat4 view;
+      uniform sampler2D boneMatrixTexture;
+      uniform float numBones;
+
+      // 这些偏移假设纹理每行4像素
+      #define ROW0_U ((0.5 + 0.0) / 4.)
+      #define ROW1_U ((0.5 + 1.0) / 4.)
+      #define ROW2_U ((0.5 + 2.0) / 4.)
+      #define ROW3_U ((0.5 + 3.0) / 4.)
+
+      // 从纹理中获取骨骼矩阵
+      mat4 getBoneMatrix(float boneNdx) {
+          float v = (boneNdx + 0.5) / numBones;
+          return mat4(
+            texture2D(boneMatrixTexture, vec2(ROW0_U, v)),
+            texture2D(boneMatrixTexture, vec2(ROW1_U, v)),
+            texture2D(boneMatrixTexture, vec2(ROW2_U, v)),
+            texture2D(boneMatrixTexture, vec2(ROW3_U, v)));
+      }
+
+      void main() {
+        gl_Position = projection * view *
+                      (getBoneMatrix(a_boneNdx[0]) * a_position * a_weight[0] +
+                      getBoneMatrix(a_boneNdx[1]) * a_position * a_weight[1] +
+                      getBoneMatrix(a_boneNdx[2]) * a_position * a_weight[2] +
+                      getBoneMatrix(a_boneNdx[3]) * a_position * a_weight[3]);
+
+      }
+    </script>
+    <!-- 一个普通的片元着色器 -->
+    <script id="fs" type="notjs">
+      precision mediump float;
+      uniform vec4 color;
+      void main () {
+          gl_FragColor = color;
+      }
+    </script>
+    <!-- 另一个顶点着色器, 用来进行绘制上的一些东西 -->
+    <script id="vs2" type="notjs">
+      attribute vec4 a_position;
+
+      uniform mat4 projection;
+      uniform mat4 view;
+      uniform mat4 model;
+
+      void main() {
+        gl_Position = projection * view * model * a_position;
+      }
+    </script>
+
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/m4.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>优化-实例化绘制</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <!-- vertex shader -->
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+      attribute vec4 a_position;
+      attribute vec4 color;
+      attribute mat4 matrix;
+
+      varying vec4 v_color;
+
+      void main() {
+          // 顶点位置与矩阵相乘
+          gl_Position = matrix * a_position;
+
+          // 传递颜色到片元着色器
+          v_color = color;
+      }
+    </script>
+    <!-- fragment shader -->
+    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+      precision mediump float;
+
+      // Passed in from the vertex shader.
+      varying vec4 v_color;
+
+      void main() {
+          gl_FragColor = v_color;
+      }
+    </script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/m4.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
+l

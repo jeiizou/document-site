@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>雾 2</title>
+    <link rel="stylesheet" href="../lib/webgl-tutorials.css" />
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="uiContainer">
+      <div id="ui"></div>
+    </div>
+    <!-- vertex shader -->
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+      attribute vec4 a_position;
+      attribute vec2 a_texcoord;
+
+      uniform mat4 u_worldView;
+      uniform mat4 u_projection;
+
+      varying vec2 v_texcoord;
+      varying vec3 v_position;
+
+      void main() {
+        // 给位置乘以矩阵
+        gl_Position = u_projection * u_worldView * a_position;
+
+        // 传递纹理给片元着色器
+        v_texcoord = a_texcoord;
+
+        v_position = (u_worldView * a_position).xyz;
+      }
+    </script>
+    <!-- fragment shader -->
+    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+      precision mediump float;
+
+      // 从顶点着色器获取的数据
+      varying vec2 v_texcoord;
+      varying vec3 v_position;
+
+      // 纹理
+      uniform sampler2D u_texture;
+      uniform vec4 u_fogColor;
+      uniform float u_fogDensity;
+
+      void main() {
+          vec4 color = texture2D(u_texture, v_texcoord);
+
+          #define LOG2 1.442695
+
+          float fogDistance = length(v_position);
+          float fogAmount = 1. - exp2(-u_fogDensity * u_fogDensity * fogDistance * fogDistance * LOG2);
+          fogAmount = clamp(fogAmount, 0., 1.);
+
+          gl_FragColor = mix(color, u_fogColor, fogAmount);
+      }
+    </script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/m4.js"></script>
+    <script src="../lib/webgl-lessons-ui.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>

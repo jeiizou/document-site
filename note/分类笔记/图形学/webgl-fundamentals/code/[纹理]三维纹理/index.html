@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>纹理-三维纹理</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+      // 顶点坐标
+      attribute vec4 a_position;
+      // 纹理坐标
+      attribute vec2 a_texcoord;
+      // 位置矩阵
+      uniform mat4 u_matrix;
+      // 可变纹理坐标
+      varying vec2 v_texcoord;
+
+      void main() {
+          // Multiply the position by the matrix.
+          gl_Position = u_matrix * a_position;
+
+          // Pass the texcoord to the fragment shader.
+          v_texcoord = a_texcoord;
+      }
+    </script>
+    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+      precision mediump float;
+
+      // 纹理坐标
+      varying vec2 v_texcoord;
+
+      // 纹理数据
+      uniform sampler2D u_texture;
+
+      void main() {
+         gl_FragColor = texture2D(u_texture, v_texcoord);
+      }
+    </script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/m4.js"></script>
+
+    <script src="./index.js"></script>
+  </body>
+</html>

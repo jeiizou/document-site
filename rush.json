@@ -1,0 +1,25 @@
+/**
+ * This is the main configuration file for Rush.
+ * For full documentation, please see https://rushjs.io
+ */
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+    "rushVersion": "5.82.0",
+    "pnpmVersion": "6.7.1",
+    "nodeSupportedVersionRange": ">=12.13.0 <13.0.0 || >=14.15.0 <15.0.0 || >=16.13.0 <17.0.0",
+    "gitPolicy": {},
+    "repository": {},
+    "eventHooks": {
+        "preRushInstall": [],
+        "postRushInstall": [],
+        "preRushBuild": [],
+        "postRushBuild": []
+    },
+    "variants": [],
+    "projects": [
+        {
+            "packageName": "wiki-site",
+            "projectFolder": "web-sites/wiki-site"
+        }
+    ]
+}

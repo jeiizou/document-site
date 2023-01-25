@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>雾 1</title>
+    <link rel="stylesheet" href="../lib/webgl-tutorials.css" />
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="uiContainer">
+      <div id="ui"></div>
+    </div>
+    <!-- vertex shader -->
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+      attribute vec4 a_position;
+      attribute vec2 a_texcoord;
+
+      uniform mat4 u_matrix;
+
+      varying vec2 v_texcoord;
+
+      void main() {
+        // Multiply the position by the matrix.
+        gl_Position = u_matrix * a_position;
+
+        // Pass the texcoord to the fragment shader.
+        v_texcoord = a_texcoord;
+      }
+    </script>
+    <!-- fragment shader -->
+    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+      precision mediump float;
+
+      // Passed in from the vertex shader.
+      varying vec2 v_texcoord;
+
+      // The texture.
+      uniform sampler2D u_texture;
+
+      uniform vec4 u_fogColor;
+      uniform float u_fogAmount;
+
+      void main() {
+        vec4 color = texture2D(u_texture, v_texcoord);
+        // 雾颜色的混合计算
+        gl_FragColor = mix(color, u_fogColor, u_fogAmount);
+      }
+    </script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/m4.js"></script>
+    <script src="../lib/webgl-lessons-ui.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>

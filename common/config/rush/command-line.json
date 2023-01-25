@@ -1,0 +1,30 @@
+/**
+ * This configuration file defines custom commands for the "rush" command-line.
+ * More documentation is available on the Rush website: https://rushjs.io
+ */
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/command-line.schema.json",
+    "commands": [
+        {
+            "name": "build:watch",
+            "commandKind": "bulk",
+            "summary": "Build projects and watch for changes",
+            "description": "For details, see the article \"Using watch mode\" on the Rush website: https://rushjs.io/",
+            // 使用增量构建（重要）
+            "incremental": true,
+            "enableParallelism": true,
+            // 启用“监听模式”
+            "watchForChanges": true
+        },
+        {
+            "name": "prettier",
+            "commandKind": "global",
+            "summary": "Used by the pre-commit Git hook. This command invokes Prettier to reformat staged changes.",
+            "safeForSimultaneousRushProcesses": true,
+            "autoinstallerName": "rush-prettier",  
+            // 它将会唤起 common/autoinstallers/rush-prettier/node_modules/.bin/pretty-quick
+            "shellCommand": "pretty-quick --staged"
+          }
+    ],
+    "parameters": []
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>纹理-映射透视矫正</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <script id="vertex-shader-2d" type="x-shader/x-vertex">
+      attribute vec4 a_position;
+      attribute float a_brightness;
+
+      varying float v_brightness;
+
+      void main() {
+          gl_Position = a_position;
+
+          // just pass the brightness on to the fragment shader
+          v_brightness = a_brightness;
+      }
+    </script>
+    <script id="fragment-shader-2d" type="x-shader/x-fragment">
+      // fragment shaders don't have a default precision so we need
+      // to pick one. mediump is a good default
+      precision mediump float;
+
+      varying float v_brightness;
+
+      void main() {
+        // gl_FragColor is a special variable a fragment shader
+        // is responsible for setting
+        gl_FragColor = vec4(fract(v_brightness * 10.), 0, 0, 1);  // 红色
+      }
+    </script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>

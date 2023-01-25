@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DEMO 1</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <script id="vertex-shader-2d" type="x-shader/x-vertex">
+      attribute vec2 a_position;
+      attribute vec2 a_texCoord;
+
+      uniform vec2 u_resolution;
+
+      varying vec2 v_texCoord;
+
+      void main() {
+          // 把像素坐标映射到webgl坐标
+          vec2 zeroToOne = a_position / u_resolution;
+          vec2 zeroToTwo = zeroToOne * 2.0;
+          vec2 clipSpace = zeroToTwo - 1.0;
+          // 翻转 y 轴, 以左上为(0, 0)
+          gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+
+          v_texCoord = a_texCoord;
+      }
+    </script>
+    <script id="fragment-shader-2d" type="x-shader/x-fragment">
+      precision mediump float;
+      // 定义的纹理
+      uniform sampler2D u_image;
+      uniform vec2 u_textureSize;
+      uniform float u_kernel[9];
+      uniform float u_kernelWeight;
+
+      // 从顶点拿过来的坐标信息
+      varying vec2 v_texCoord;
+      // 设置二维的纹理
+      void main() {
+          vec2 onePixel = vec2(1.0, 1.0) / u_textureSize;
+          vec4 colorSum =
+              texture2D(u_image, v_texCoord + onePixel * vec2(-1, -1)) * u_kernel[0] +
+              texture2D(u_image, v_texCoord + onePixel * vec2( 0, -1)) * u_kernel[1] +
+              texture2D(u_image, v_texCoord + onePixel * vec2( 1, -1)) * u_kernel[2] +
+              texture2D(u_image, v_texCoord + onePixel * vec2(-1,  0)) * u_kernel[3] +
+              texture2D(u_image, v_texCoord + onePixel * vec2( 0,  0)) * u_kernel[4] +
+              texture2D(u_image, v_texCoord + onePixel * vec2( 1,  0)) * u_kernel[5] +
+              texture2D(u_image, v_texCoord + onePixel * vec2(-1,  1)) * u_kernel[6] +
+              texture2D(u_image, v_texCoord + onePixel * vec2( 0,  1)) * u_kernel[7] +
+              texture2D(u_image, v_texCoord + onePixel * vec2( 1,  1)) * u_kernel[8] ;
+          // 只把rgb值求和除以权重
+          // 将aplpha设置为1
+          gl_FragColor = vec4((colorSum / u_kernelWeight).rgb, 1.0);
+      }
+    </script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

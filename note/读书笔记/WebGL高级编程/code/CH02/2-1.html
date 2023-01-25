@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Listing 2-1, A First WebGL Example</title>
+        <meta charset="utf-8" />
+        <script type="text/javascript">
+            //预定义变量
+            var gl;
+            var canvas;
+            var shaderProgram;
+            var vertexBuffer;
+
+            //初始化WebGL
+            function createGLContext(canvas) {
+                var names = ['webgl', 'experimental-webgl'];
+                var context = null;
+                for (var i = 0; i < names.length; i++) {
+                    try {
+                        context = canvas.getContext(names[i]);
+                    } catch (e) {}
+                    if (context) {
+                        break;
+                    }
+                }
+                if (context) {
+                    context.viewportWidth = canvas.width;
+                    context.viewportHeight = canvas.height;
+                } else {
+                    alert('初始化WebGL失败');
+                }
+                return context;
+            }
+
+            function loadShader(type, shaderSource) {
+                //创建一个着色器对象, 参数决定着色器的类型
+                var shader = gl.createShader(type);
+                //把源代码载入到着色器对象中
+                //第一个参数表示已经创建的着色器对象, 第二个参数表示着色器的源代码
+                gl.shaderSource(shader, shaderSource);
+                //编译着色器
+                gl.compileShader(shader);
+                //检查编译的状态
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    //显示警告信息
+                    alert('Error compiling shader' + gl.getShaderInfoLog(shader));
+                    //删除着色器对象
+                    gl.deleteShader(shader);
+                    return null;
+                }
+                //返回编译好的着色器
+                return shader;
+            }
+
+            function setupShaders() {
+                //顶点着色器
+                //利用aVertexPositon把顶点的位置传送给顶点着色器, 还需要设置顶点缓冲区, 并将缓冲区绑定到该属性上
+                //这两个步骤由setIUPBuffers和draw函数实现
+                var vertexShaderSource = `
+                  attribute vec3 aVertexPosition;                
+                  void main() {                                  
+                    gl_Position = vec4(aVertexPosition, 1.0);    
+                  }`;
+                //片元着色器
+                var fragmentShaderSource = `
+                  precision mediump float;                    
+                  void main() {                               
+                    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);  
+                  }`;
+                //通过type类型创建顶点着色器或者片元着色器
+                var vertexShader = loadShader(gl.VERTEX_SHADER, vertexShaderSource);
+                var fragmentShader = loadShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+                //把编译好的顶点着色器和片元着色器插入到这个对象中, 然后连接到一个WebGL可以使用着色器程序
+                shaderProgram = gl.createProgram();
+                gl.attachShader(shaderProgram, vertexShader);
+                gl.attachShader(shaderProgram, fragmentShader);
+                //链接操作
+                gl.linkProgram(shaderProgram);
+                if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+                    alert('着色器初始化失败');
+                }
+
+                gl.useProgram(shaderProgram);
+                //在链接之后, WebGL实现把顶点着色器使用的属性绑定到通用属性索引上
+                //WebGL实现已为顶点的属性分配了固定数目的"插槽", 通用属性索引就是其中某个插槽的标识符
+                //在顶点着色器中必须知道每个属性对应的通用属性索引, 因为在绘制过程中, 就是利用这个索引把好汉顶点数据的缓冲与顶点着色器中的属性建立起正确的关联. 
+                //有两种策略可以获得这个索引:
+                //1. 使用gl.bindAttributeLoaction()方法定义在执行链接之前把属性绑定到索引上, 定义了这个索引后, 就可以在绘制过程中使用这个索引
+                //2. 由WebGL引擎自己决定某个属性要使用那个索引, 在链接完成后, 用gl.getArrtibLocation()方法得到某个属性的通用属性索引.
+                //这里使用了第二种方法
+                //将shaderProgram作为一个新属性, 命名为aVertexPosition属性的绑定.
+                //在js中一个对象实际上是一个哈希映射. 只要给对象一个新属性赋一个值就可以创建这个属性. 
+                //因此shaderProgram对象并没有一个预先定义的名为vertexPositonArtibute的属性, 但是给它赋值就可以创建这个属性, 
+                //后面在draw函数中通过保存在这个属性中的索引把包含顶点数据的缓冲绑定到顶点作色其中的aVertexPosition属性上
+                shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, 'aVertexPosition');
+            }
+
+            //准备好着色器之后, 下一步就是建立缓冲, 用来保存顶点数据. 在这里只需要一个保存三角形顶点位置的缓冲
+            function setupBuffers() {
+                //创建WebGLBuffer对象
+                vertexBuffer = gl.createBuffer();
+                //把这个对象绑定为当前的数据缓冲对象
+                //从现在开始, 这个缓冲对象就是它要使用的对象
+                gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+                //三角形的顶点数据
+                var triangleVertices = [0.0, 0.5, 0.0, -0.5, -0.5, 0.0, 0.5, -0.5, 0.0];
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleVertices), gl.STATIC_DRAW);
+                //定义每个属性有多少个分量
+                vertexBuffer.itemSize = 3;
+                //定义在这个缓冲中的项或顶点的个数. 绘制场景是需要用到这两个属性的值.
+                vertexBuffer.numberOfItems = 3;
+                //这样, 在更新顶点数据的结构时, 更容易记住需要更新这两个属性
+            }
+            //绘制所有对象
+            function draw() {
+                //首先定义一个视口. 视口定义了最终绘制的场景在绘制缓冲的位置, 在创建WebGL上下文后, 程序把视口初始化为一个原点在(0,0)位置的矩形, 矩形的宽度和高度为画布的宽度和高度. 
+                //所以下面这行代码对本例没有任何影响, 但是我们应当熟悉这行代码, 以后会常用到
+                gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+                //当调用gl.clear()方法, 颜色缓冲清除为黑色
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                //把刚刚绑定到gl.ARRAY_BUFFER目标上的WebGLBuffer对象赋给一个顶点属性,
+                gl.vertexAttribPointer(
+                    shaderProgram.vertexPositionAttribute,
+                    vertexBuffer.itemSize,//表示每个属性的大小或分量数.在setupBuffer方法中已经存储该值, 将其作为vertexBuffer
+                    gl.FLOAT,//表示要把顶点缓冲对象中的值当做浮点数
+                    false,//规范化表示, 是否把非浮点数转化为浮点数
+                    0,//步幅, 取0表示数据在内存中顺序存放
+                    0//表示缓冲中的偏移值, 由于数据从缓冲的开始位置存放, 因此也设置为0
+                );
+
+                gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+
+                gl.drawArrays(gl.TRIANGLES, 0, vertexBuffer.numberOfItems);
+            }
+
+            function startup() {
+                canvas = document.getElementById('myGLCanvas'); //获取画布对象
+                gl = createGLContext(canvas); //初始化webgl
+                setupShaders();//初始化着色器
+                setupBuffers();//设置缓冲区
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                draw();//进行绘制
+            }
+        </script>
+    </head>
+    <!-- 页面文件和所有外部内容载入到浏览器时, 触发onload()事件 -->
+    <body onload="startup();">
+        <canvas id="myGLCanvas" width="500" height="500"></canvas>
+    </body>
+</html>

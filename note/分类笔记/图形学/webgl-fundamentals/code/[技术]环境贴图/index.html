@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>技术-环境贴图</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+
+      img {
+        margin: 5px;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+      attribute vec4 a_position;
+      attribute vec3 a_normal;
+
+      uniform mat4 u_projection;
+      uniform mat4 u_view;
+      uniform mat4 u_world;
+
+      varying vec3 v_worldPosition;
+      varying vec3 v_worldNormal;
+
+      void main() {
+          // 将位置与矩阵相乘。
+          gl_Position = u_projection * u_view * u_world * a_position;
+
+          // 传递世界位置给片断着色器
+          v_worldPosition = (u_world * a_position).xyz;
+
+          // 转换法线并传递给片断着色器
+          v_worldNormal = mat3(u_world) * a_normal;
+      }
+    </script>
+    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+      precision highp float;
+
+      // 从顶点着色器传入的。
+      varying vec3 v_worldPosition;
+      varying vec3 v_worldNormal;
+
+      // 纹理。
+      uniform samplerCube u_texture;
+
+      // 相机位置。
+      uniform vec3 u_worldCameraPosition;
+
+      void main() {
+          vec3 worldNormal = normalize(v_worldNormal);
+          vec3 eyeToSurfaceDir = normalize(v_worldPosition - u_worldCameraPosition);
+          vec3 direction = reflect(eyeToSurfaceDir,worldNormal);
+
+          gl_FragColor = textureCube(u_texture, direction);
+      }
+    </script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/m4.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>

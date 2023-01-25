@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>立方体贴图</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+
+      img {
+        margin: 5px;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+      attribute vec4 a_position;
+
+      uniform mat4 u_matrix;
+
+      varying vec3 v_normal;
+
+      void main() {
+        // 将位置和矩阵相乘
+        gl_Position = u_matrix * a_position;
+
+        // 传递法向量. 因为位置是以集合中心为原点的
+        // 我们可以直接传递位置
+        v_normal = normalize(a_position.xyz);
+      }
+    </script>
+    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+      precision mediump float;
+
+      // 从顶点着色器传入
+      varying vec3 v_normal;
+
+      // 纹理
+      uniform samplerCube u_texture;
+
+      void main() {
+         gl_FragColor = textureCube(u_texture, normalize(v_normal));
+      }
+    </script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/m4.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>

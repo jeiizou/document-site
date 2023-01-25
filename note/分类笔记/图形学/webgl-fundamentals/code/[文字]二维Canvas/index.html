@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文字-canvas</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      .container {
+        position: relative;
+      }
+
+      #text {
+        background-color: transparent;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        z-index: 10;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <canvas id="canvas"></canvas>
+      <canvas id="text"></canvas>
+    </div>
+    <!-- vertex shader -->
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+      attribute vec4 a_position;
+      attribute vec4 a_color;
+
+      uniform mat4 u_matrix;
+
+      varying vec4 v_color;
+
+      void main() {
+        // Multiply the position by the matrix.
+        gl_Position = u_matrix * a_position;
+
+        // Pass the color to the fragment shader.
+        v_color = a_color;
+      }
+    </script>
+    <!-- fragment shader -->
+    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+      precision mediump float;
+
+      // Passed in from the vertex shader.
+      varying vec4 v_color;
+
+      void main() {
+         gl_FragColor = v_color;
+      }
+    </script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/m4.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
