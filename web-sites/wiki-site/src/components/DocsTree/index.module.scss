@@ -1,7 +1,16 @@
 .tagItem {
-  padding: 8px;
-  border: 1px solid var(--ifm-navbar-link-hover-color);
-  margin: 10px;
+  padding: 8px 10px;
+  border: 1px solid #eee;
+  margin: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
+  transition: all 200ms;
+
+  &:hover {
+    border-radius: 8px;
+    border: 1px solid var(--ifm-navbar-link-hover-color);
+    background-color: var(--ifm-navbar-link-hover-color);
+    color: #eee;
+    // box-shadow: 3px 3px 7px 5px #aaa;
+  }
 }

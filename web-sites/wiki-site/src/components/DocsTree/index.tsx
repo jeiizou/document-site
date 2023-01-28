@@ -10,23 +10,23 @@ export default function DocsTree() {
   const docs = contentData.versions?.[0].docs;
 
   return (
-    <span
-      style={{
-        borderRadius: '2px',
-        padding: '0.2rem',
-      }}
-    >
-      <div className="flex flex-wrap">
-        {docs?.map((item) => {
-          const pathList = item.path.split('/');
-          const lastName = pathList[pathList.length - 1];
-          return lastName ? (
-            <Link key={item.id} to={item.path}>
-              <div className={styles.tagItem}>{pathList[pathList.length - 1]}</div>
-            </Link>
-          ) : null;
-        })}
-      </div>
-    </span>
+    <div className="flex flex-wrap">
+      {docs?.map((item) => {
+        const pathList = item.path.split('/');
+        const lastName = pathList[pathList.length - 1];
+        return lastName ? (
+          <Link
+            key={item.id}
+            to={item.path}
+            style={{
+              textDecoration: 'none',
+              color: '#666',
+            }}
+          >
+            <div className={styles.tagItem}>{pathList[pathList.length - 1]}</div>
+          </Link>
+        ) : null;
+      })}
+    </div>
   );
 }
