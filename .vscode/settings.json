@@ -1,9 +1,4 @@
 {
-    "git.ignoreLimitWarning": true,
-    "cSpell.words": [
-        "clsx",
-        "CSSOM",
-        "typecheck",
-        "Worklet"
-    ]
+  "git.ignoreLimitWarning": true,
+  "cSpell.words": ["Carmack", "Carmark", "clsx", "CSSOM", "typecheck", "Worklet"]
 }

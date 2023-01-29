@@ -11,9 +11,6 @@ function HomepageHeader() {
   return (
     <div className={clsx('hero', styles.heroBanner)}>
       <BlobFish></BlobFish>
-      {/* <div className={styles.wave}>
-        <Wave />
-      </div> */}
     </div>
   );
 }
