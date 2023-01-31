@@ -149,10 +149,10 @@ const config = {
       },
       algolia: {
         // Algolia 提供的应用 ID
-        appId: 'R2IYF7ETH7',
+        appId: 'R4YE5QMILV',
         //  公开 API 密钥：提交它没有危险
-        apiKey: '599cec31baffa4868cae4e79f180729b',
-        indexName: 'docsearch',
+        apiKey: '54d94d249205638d12475832396c6dc4',
+        indexName: 'jeiizou',
       },
     }),
 
