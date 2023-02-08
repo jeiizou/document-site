@@ -1,3 +1,6 @@
+---
+slug: /Graphics/WebGLCommonFunctions
+---
 # WebGL-常用函数
 
 ## gl.clearColor(red,green,blue,alpha) 设置`<canvas>`的背景

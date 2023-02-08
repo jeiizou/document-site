@@ -1,3 +1,6 @@
+---
+slug: /ComputerNetwork/HTTP/HTTP
+---
 # HTTP
 
 Http是无状态(stateless)协议, http协议自身不对请求和响应之间的通信状态进行保存. 也就是说在HTTP这个级别, 协议对于发送过的请求或者响应都不做持久化处理.

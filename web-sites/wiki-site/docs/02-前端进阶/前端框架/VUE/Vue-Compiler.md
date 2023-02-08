@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendFramework/VUE/VueCompiler
+---
 # Vue-Compiler
 
 编译优化主要有:

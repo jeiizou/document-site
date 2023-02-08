@@ -1,3 +1,6 @@
+---
+slug: /Architecture&Pattern&Engineering/ArchitectureIoC&DIP&Reflection
+---
 # 架构-IoC&DIP&Reflect
 
 ## IoC

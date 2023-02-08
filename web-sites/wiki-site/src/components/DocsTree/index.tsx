@@ -12,8 +12,8 @@ export default function DocsTree() {
   return (
     <div className="flex flex-wrap">
       {docs?.map((item) => {
-        const pathList = item.path.split('/');
-        const lastName = pathList[pathList.length - 1];
+        const nameList = item.id.split('/');
+        const lastName = nameList[nameList.length - 1];
         return lastName ? (
           <Link
             key={item.id}
@@ -23,7 +23,7 @@ export default function DocsTree() {
               color: '#666',
             }}
           >
-            <div className={styles.tagItem}>{pathList[pathList.length - 1]}</div>
+            <div className={styles.tagItem}>{lastName}</div>
           </Link>
         ) : null;
       })}

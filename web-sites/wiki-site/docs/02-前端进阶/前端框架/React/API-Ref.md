@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendFramework/React/APIRef
+---
 # API-Ref
 
 

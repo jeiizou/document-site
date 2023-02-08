@@ -1,3 +1,6 @@
+---
+slug: /FrontendFoundation/HTML/HTMLDeviceAPI
+---
 # HTML-设备API
  
 ## online state

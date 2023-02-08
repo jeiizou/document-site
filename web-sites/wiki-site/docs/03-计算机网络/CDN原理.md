@@ -1,3 +1,6 @@
+---
+slug: /ComputerNetwork/CDNPrinciple
+---
 # CDN原理
 
 

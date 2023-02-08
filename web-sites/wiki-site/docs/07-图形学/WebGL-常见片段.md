@@ -1,3 +1,6 @@
+---
+slug: /Graphics/WebGLCommonFragments
+---
 # WebGL-常见片段
 
 ## 创建 webgl 环境

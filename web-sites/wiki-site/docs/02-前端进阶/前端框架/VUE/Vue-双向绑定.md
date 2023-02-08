@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendFramework/VUE/VueBidirectionalBinding
+---
 # Vue-双向绑定
 
 

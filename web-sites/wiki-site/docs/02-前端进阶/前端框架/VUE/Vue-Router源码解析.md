@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendFramework/VUE/VueRouterSourceCodeAnalysis
+---
 # Vue-Router源码解析
 
 

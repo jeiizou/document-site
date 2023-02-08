@@ -1,3 +1,6 @@
+---
+slug: /FrontendBase/JavaScript/ArrayBuffer
+---
 # 语法特性-ArrayBuffer
 
 

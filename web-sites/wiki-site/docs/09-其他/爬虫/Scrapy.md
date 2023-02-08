@@ -1,3 +1,6 @@
+---
+slug: /Other/Crawler/Scrapy
+---
 
 ## Scrapy 入门指南
 

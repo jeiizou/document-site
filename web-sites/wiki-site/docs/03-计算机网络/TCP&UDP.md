@@ -1,3 +1,6 @@
+---
+slug: /ComputerNetwork/TCP&UDP
+---
 # TCP&UDP
 
 

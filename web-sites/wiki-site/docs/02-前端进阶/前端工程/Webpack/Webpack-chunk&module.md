@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendEngineering/Webpack/WebpackChunkAndModule
+---
 # Webpack-chunk&module
 
 ## module

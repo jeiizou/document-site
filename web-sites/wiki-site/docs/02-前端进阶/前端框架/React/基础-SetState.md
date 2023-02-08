@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendFramework/React/FoundationSetState
+---
 # 基础-SetState
 
 

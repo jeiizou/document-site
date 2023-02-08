@@ -1,3 +1,6 @@
+---
+slug: /QuickQueryOfServer/ShellSyntax
+---
 # Shell语法速查
 
 

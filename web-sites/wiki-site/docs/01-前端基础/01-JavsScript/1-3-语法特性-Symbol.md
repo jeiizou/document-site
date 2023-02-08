@@ -1,3 +1,6 @@
+---
+slug: /FrontendBase/JavaScript/Symbol
+---
 # 语法特性-Symbol
 
 

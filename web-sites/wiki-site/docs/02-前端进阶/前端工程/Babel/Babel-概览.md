@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendEngineering/Label/LabelOverview
+---
 # Babel-概览
 
 

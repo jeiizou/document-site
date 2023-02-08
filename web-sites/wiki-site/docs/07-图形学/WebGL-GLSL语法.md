@@ -1,3 +1,6 @@
+---
+slug: /Graphics/GLSLSyntax
+---
 # WebGL-GLSL语法
 
 GLEL ES 的版本是 1.00. WebGL 并不支持 GLSL ES 1.00 的所有特性, 实际上, 它支持的是 1.00 版本的一个子集, 只包含了 webgl 需要的那些核心特性.

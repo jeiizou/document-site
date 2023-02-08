@@ -1,3 +1,6 @@
+---
+slug: /FrontendBase/JavaScript/WebWorker
+---
 # 语法特性-WebWorker
 
 

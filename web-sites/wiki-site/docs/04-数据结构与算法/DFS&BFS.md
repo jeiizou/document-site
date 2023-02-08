@@ -1,3 +1,6 @@
+---
+slug: /DataStructureAndAlgorithm/DFS&BFS
+---
 # DFS&BFS
 
 

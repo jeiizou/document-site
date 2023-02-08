@@ -1,3 +1,6 @@
+---
+slug: /Other/Rust/GenericTrailLifecycle
+---
 # Hello Rust [6] - 泛型 & Trait & 生命周期
 
 # 泛型

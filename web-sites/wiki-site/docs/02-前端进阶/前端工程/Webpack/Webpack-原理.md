@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendEngineering/Webpack/WebpackPrinciple
+---
 # Webpack-原理
 
 ## 基本概念

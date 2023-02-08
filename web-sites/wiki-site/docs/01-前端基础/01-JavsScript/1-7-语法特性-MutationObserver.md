@@ -1,3 +1,6 @@
+---
+slug: /FrontendBase/JavaScript/AutomationObserver
+---
 # 语法特性-MutationObserver
 
 

@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendFramework/VUE/VueSkillsAndPerformance
+---
 # Vue-技巧和性能
 
 

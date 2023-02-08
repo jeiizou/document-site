@@ -1,3 +1,6 @@
+---
+slug: /FrontendFoundation/Node/NodeModuleMechanism
+---
 # Node-模块机制
 
 

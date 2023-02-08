@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendFramework/VUE/VueNewChanges
+---
 # Vue-新变化
 
 ## 整体的提升和优化

@@ -1,3 +1,6 @@
+---
+slug: /Other/Get/GetPrinciple
+---
 # Git-原理
 
 

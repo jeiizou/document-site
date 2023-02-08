@@ -1,3 +1,6 @@
+---
+slug: /FrontendFoundation/HTML/HTMLfoundation
+---
 # HTML-基础
 
 ## Doctype 声明

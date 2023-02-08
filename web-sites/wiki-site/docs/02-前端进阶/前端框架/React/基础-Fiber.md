@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendFramework/React/FoundationFiber
+---
 # 基础-Fiber
 
 

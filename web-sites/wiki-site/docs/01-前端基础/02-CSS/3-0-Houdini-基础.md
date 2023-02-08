@@ -1,3 +1,6 @@
+---
+slug: /FrontendFoundation/CSS/Houdini
+---
 # Houdini-基础
 
 CSS Houdini API是CSS引擎暴露出来的一套api，通过这套API，开发者可以直接触及CSSOM，告诉浏览器如何去解析CSS, 从而影响浏览器的渲染过程, 实现一些原来无法实现的功能.

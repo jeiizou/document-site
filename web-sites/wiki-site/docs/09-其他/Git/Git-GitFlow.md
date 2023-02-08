@@ -1,3 +1,6 @@
+---
+slug: /Other/Get/GetFlow
+---
 # Git-GitFlow
 
 git flow 是一种基于 git 开发的分支管理规范.

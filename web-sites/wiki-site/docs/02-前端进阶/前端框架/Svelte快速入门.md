@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendFramework/SveteQuickStart
+---
 # Svelte快速入门
 
 

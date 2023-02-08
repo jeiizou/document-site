@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendFramework/React/FoundationVirtualDomDiff
+---
 # 基础-Virtualdomdiff
 
 

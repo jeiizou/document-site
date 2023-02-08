@@ -1,3 +1,6 @@
+---
+slug: /Other/Get/GetFS
+---
 # Git-LFS
 
 

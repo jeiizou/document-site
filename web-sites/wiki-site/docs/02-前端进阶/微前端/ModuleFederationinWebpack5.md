@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/MicroFrontend/ModuleFederationInWebpack
+---
 
 ## Module Federation in Webpack5
 

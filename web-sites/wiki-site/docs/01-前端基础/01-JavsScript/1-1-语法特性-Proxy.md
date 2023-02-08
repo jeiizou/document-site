@@ -1,3 +1,6 @@
+---
+slug: /FrontendFoundation/JavaScript/SyntaxFeatureProxy
+---
 # 语法特性-Proxy
 
 

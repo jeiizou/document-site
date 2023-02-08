@@ -1,3 +1,6 @@
+---
+slug: /CommonConfigurationOfServer/Nginx
+---
 # Nginx常用配置
 
 一个最基础的Nginx前端项目部署配置:

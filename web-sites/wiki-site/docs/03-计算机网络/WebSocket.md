@@ -1,3 +1,6 @@
+---
+slug: /ComputerNetwork/WebSocket
+---
 # WebSocket
 
 

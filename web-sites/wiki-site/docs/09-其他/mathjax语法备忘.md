@@ -1,3 +1,6 @@
+---
+slug: /Other/MathJaxSyntaxMemo
+---
 #  KaTeX 常用语法参考
 
 > [完整支持列表](https://katex.org/docs/support_table.html)

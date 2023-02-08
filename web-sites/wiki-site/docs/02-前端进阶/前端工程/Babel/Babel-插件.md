@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendEngineering/Label/LabelPlugin
+---
 # Babel-插件
 
 

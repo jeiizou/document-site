@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendEngineering/PrincipleTreeShaking
+---
 # 原理-TreeShaking
 
 

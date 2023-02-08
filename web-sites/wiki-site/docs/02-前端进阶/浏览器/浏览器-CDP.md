@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/Browser/BrowserCDP
+---
 # 浏览器-CDP
 
 > [Offical Site](https://chromedevtools.github.io/devtools-protocol/)

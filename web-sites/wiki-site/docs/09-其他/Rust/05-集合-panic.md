@@ -1,3 +1,6 @@
+---
+slug: /Other/Rust/CollectionPanic
+---
 # Hello Rust [5] - 集合 & Panic!
 
 # 集合

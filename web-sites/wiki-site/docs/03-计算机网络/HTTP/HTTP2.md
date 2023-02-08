@@ -1,3 +1,6 @@
+---
+slug: /ComputerNetwork/HTTP/HTTP2
+---
 # HTTP2
 
 

@@ -1,3 +1,6 @@
+---
+slug: /ComputerNetwork/HTTP/HTTP3
+---
 # HTTP3
 
 

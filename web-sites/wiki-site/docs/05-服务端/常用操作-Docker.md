@@ -1,3 +1,6 @@
+---
+slug: /Server/CommonOperationsDocker
+---
 # 常用操作-Docker
 
 > CentOS

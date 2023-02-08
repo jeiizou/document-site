@@ -1,3 +1,6 @@
+---
+slug: /Server/LinuxCommonErrors
+---
 # linux-常见错误
 
 ## ENOSPC:System limit for number of file watchers reached

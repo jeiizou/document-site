@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/FrontendFramework/VUE/VueHandwritingStatusManagement
+---
 # Vue-手写状态管理
 
 ```js

@@ -1,3 +1,6 @@
+---
+slug: /FrontendAdvanced/Applet/TaroFrameworkPrinciple
+---
 # Taro-框架原理
 
 ## taro的起源

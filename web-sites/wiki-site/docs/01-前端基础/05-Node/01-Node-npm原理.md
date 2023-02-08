@@ -1,3 +1,6 @@
+---
+slug: /FrontendFoundation/Node/NodeNpmPrinciple
+---
 # Node-npm原理
 
 

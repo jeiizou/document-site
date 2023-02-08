@@ -1,3 +1,6 @@
+---
+slug: /Other/Get/GetSkill
+---
 # Git-技巧
 
 ## 标准提交规范

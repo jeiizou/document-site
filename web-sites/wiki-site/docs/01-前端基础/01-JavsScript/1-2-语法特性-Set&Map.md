@@ -1,3 +1,6 @@
+---
+slug: /FrontendBase/JavaScript/SetAndMap
+---
 # 语法特性-Set&Map
 
 

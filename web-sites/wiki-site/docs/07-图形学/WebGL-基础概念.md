@@ -1,3 +1,6 @@
+---
+slug: /Graphics/WebGLBasicConcepts
+---
 # WebGL-基础概念
 
 ## 着色器(Shader)

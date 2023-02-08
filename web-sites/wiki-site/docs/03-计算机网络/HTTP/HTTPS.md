@@ -1,3 +1,6 @@
+---
+slug: /ComputerNetwork/HTTP/HTTPS
+---
 # HTTPS
 
 Http 是明文传输的通信协议, 存在着一些风险:
