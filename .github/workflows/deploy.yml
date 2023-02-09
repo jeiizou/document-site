@@ -41,4 +41,4 @@ jobs:
           git config --global user.email "jeiizou@qq.com"
           git config --global user.name "jeiizou"
           pnpm install
-          pnpm build
+          pnpm run deploy
