@@ -10,6 +10,7 @@ jobs:
   test-deploy:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
+    working-directory: web-sites/wiki-site
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -25,6 +26,7 @@ jobs:
   deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
+    working-directory: web-sites/wiki-site
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -40,6 +42,5 @@ jobs:
         run: |
           git config --global user.email "jeiizou@qq.com"
           git config --global user.name "jeiizou"
-          cd ./web-sites/wiki-site
           yarn install
           yarn build
