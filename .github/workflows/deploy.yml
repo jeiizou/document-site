@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: yarn
+          cache: pnpm
       - name: Check Site Dir
         run: cd ./web-sites/wiki-site
       - name: Install dependencies
