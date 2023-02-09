@@ -26,7 +26,7 @@ jobs:
   deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    working-directory: web-sites/wiki-site
+    working-directory: scripts
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
