@@ -5,20 +5,19 @@ on:
     branches: [master]
   push:
     branches: [master]
-
+defaults:
+  run:
+    working-directory: web-sites/wiki-site
 jobs:
   test-deploy:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
-    working-directory: web-sites/wiki-site
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: yarn
-      - name: Check Site Dir
-        run: cd ./web-sites/wiki-site
       - name: Install dependencies
         run: yarn install
       - name: Test build website
@@ -26,7 +25,6 @@ jobs:
   deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    working-directory: scripts
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
