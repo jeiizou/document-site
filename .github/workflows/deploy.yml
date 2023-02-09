@@ -5,9 +5,7 @@ on:
     branches: [master]
   push:
     branches: [master]
-defaults:
-  run:
-    working-directory: web-sites/wiki-site
+
 jobs:
   # test-deploy:
   #   if: github.event_name != 'push'
@@ -34,15 +32,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
       - uses: webfactory/ssh-agent@v0.5.0
         with:
           ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
+      - name: Rush Install
+        run: node common/scripts/install-run-rush.js install
       - name: Deploy to GitHub Pages
         env:
           USE_SSH: true
         run: |
           git config --global user.email "jeiizou@qq.com"
           git config --global user.name "jeiizou"
-          pnpm install
+          cd web-sites/wiki-site
           pnpm run deploy
