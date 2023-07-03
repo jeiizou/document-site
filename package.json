@@ -1,0 +1,20 @@
+{
+  "name": "docusment-site",
+  "version": "1.0.0",
+  "description": "## wiki-site",
+  "main": ".prettierrc.js",
+  "scripts": {
+    "update": "git add -A & git commit -m 'docs: update document'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeiizou/document-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeiizou/document-site/issues"
+  },
+  "homepage": "https://github.com/jeiizou/document-site#readme"
+}
