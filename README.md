@@ -25,6 +25,8 @@
 
 ### note 书写
 
+- 建议新建一个feat分支用于记录笔记
+  - 因为直接在master分支上,每次push都会触发wiki的部署Action
 
 
 
